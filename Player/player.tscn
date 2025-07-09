@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://bv5u38ebetxvu"]
+
+[ext_resource type="Script" uid="uid://dbfb7asdjwg5r" path="res://Player/player.gd" id="1_inwu4"]
+[ext_resource type="Texture2D" uid="uid://comg4nk5j5uxp" path="res://icon.svg" id="1_l8h54"]
+[ext_resource type="Script" uid="uid://kl0tmr2uwr6t" path="res://Joystick/joy_stick.gd" id="3_k53q1"]
+[ext_resource type="Texture2D" uid="uid://b0k4rjb3174j7" path="res://Joystick/images_21_-removebg-preview(1).png" id="4_fhl08"]
+[ext_resource type="Texture2D" uid="uid://boq5h8mcpylrb" path="res://Joystick/20250704_115153.png" id="5_vtle1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k53q1"]
+size = Vector2(84.1667, 81.6667)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
+scale = Vector2(0.75, 0.75)
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_inwu4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_l8h54")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.416667, 1.58946e-06)
+shape = SubResource("RectangleShape2D_k53q1")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="JoyStick" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 493.0
+offset_top = 2143.0
+offset_right = 493.0
+offset_bottom = 2143.0
+mouse_filter = 2
+script = ExtResource("3_k53q1")
+outer_circle_path = NodePath("OuterCircle")
+inner_circle_path = NodePath("OuterCircle/InnerCircle")
+
+[node name="OuterCircle" type="Sprite2D" parent="UI/JoyStick"]
+self_modulate = Color(0.0588235, 0.0588235, 0.0588235, 0.298039)
+texture = ExtResource("4_fhl08")
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/JoyStick/OuterCircle"]
+self_modulate = Color(1, 1, 1, 0.231373)
+position = Vector2(-1, 22)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_vtle1")
+
+[node name="InnerCircle" type="Sprite2D" parent="UI/JoyStick/OuterCircle"]
+self_modulate = Color(0.056905, 0.056905, 0.056905, 0.890196)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_fhl08")
+
+[node name="FireRate" type="Timer" parent="." groups=["player"]]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="FireRate" to="." method="_on_fire_rate_timeout"]

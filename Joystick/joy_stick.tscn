@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcms8cxipu2ir"]
+
+[ext_resource type="Texture2D" uid="uid://b0k4rjb3174j7" path="res://Joystick/images_21_-removebg-preview(1).png" id="1_5r1ln"]
+[ext_resource type="Script" uid="uid://kl0tmr2uwr6t" path="res://Joystick/joy_stick.gd" id="1_kofrt"]
+[ext_resource type="Texture2D" uid="uid://boq5h8mcpylrb" path="res://Joystick/20250704_115153.png" id="3_t3nla"]
+
+[node name="JoyStick" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_kofrt")
+outer_circle_path = NodePath("OuterCircle")
+inner_circle_path = NodePath("OuterCircle/InnerCircle")
+
+[node name="OuterCircle" type="Sprite2D" parent="."]
+self_modulate = Color(0.0588235, 0.0588235, 0.0588235, 0.298039)
+texture = ExtResource("1_5r1ln")
+
+[node name="Sprite2D" type="Sprite2D" parent="OuterCircle"]
+self_modulate = Color(1, 1, 1, 0.231373)
+position = Vector2(-1, 22)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_t3nla")
+
+[node name="InnerCircle" type="Sprite2D" parent="OuterCircle"]
+self_modulate = Color(0.056905, 0.056905, 0.056905, 0.890196)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_5r1ln")

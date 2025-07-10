@@ -1,5 +1,6 @@
 extends Control
 
+@onready var shop = get_tree().get_first_node_in_group("shop")
 @export var joystick_radius: float = 150.0
 @export var outer_circle_path: NodePath
 @export var inner_circle_path: NodePath
@@ -24,6 +25,9 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			
 			start_pos = event.position
+			
+			if start_pos.x < 500:
+					return
 			current_touch_pos = start_pos
 			global_position = start_pos # Position the joystick's center at the touch point
 			visible = true

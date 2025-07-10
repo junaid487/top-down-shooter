@@ -5,4 +5,7 @@ extends Node
 @export var bullet_hp: int = 1
 
 @export var enemy_dmg: int = 100
-@export var bullet_dmg: int = 25
+@export var bullet_dmg: int
+@export var fire_rate: int = 1
+@export var pierce: int = 1
+@export var AoE_radius: int = 25

@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvm6pbjl561kd"]
+[gd_scene load_steps=11 format=3 uid="uid://cvm6pbjl561kd"]
 
 [ext_resource type="Script" uid="uid://brjhrtvgdkqoa" path="res://Main/main.gd" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://bv5u38ebetxvu" path="res://Player/player.tscn" id="2_2w1kt"]
-[ext_resource type="PackedScene" uid="uid://cqjf4xoskdju2" path="res://Enemy/enemy.tscn" id="3_qvhan"]
 [ext_resource type="PackedScene" uid="uid://bwsme2hx6youc" path="res://Main/boundary.tscn" id="4_eunhr"]
+[ext_resource type="Texture2D" uid="uid://by12hxfhygelf" path="res://Assets/towerDefense_tile084.png" id="4_rj11h"]
+[ext_resource type="Script" uid="uid://dkkctrt320bva" path="res://UI/ui.gd" id="5_f6fdm"]
+[ext_resource type="PackedScene" uid="uid://dvkysi1odc3ic" path="res://UI/play.tscn" id="5_ib3t1"]
 [ext_resource type="PackedScene" uid="uid://jtsqny5tjbsl" path="res://UI/YouWin.tscn" id="5_k3v36"]
+[ext_resource type="PackedScene" uid="uid://bfo3ag0b24hps" path="res://UI/shop.tscn" id="7_f6fdm"]
+[ext_resource type="PackedScene" uid="uid://qmdaperih061" path="res://Enemy/enemy_spawner.tscn" id="10_qac2q"]
 
-[node name="Main" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uuxsp"]
+size = Vector2(63, 63)
+
+[node name="Main" type="Node2D" groups=["main"]]
 script = ExtResource("1_yh5la")
 metadata/_edit_vertical_guides_ = [-672.0]
 
@@ -16,7 +23,7 @@ offset_left = -325.0
 offset_top = -287.0
 offset_right = 2732.0
 offset_bottom = 1331.0
-color = Color(0, 0.12549, 0.188235, 1)
+color = Color(3.73013e-07, 0.170081, 0.248327, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_2w1kt")]
 position = Vector2(1207, 544)
@@ -31,6 +38,18 @@ scale = Vector2(50, 1)
 rotation = 1.5708
 scale = Vector2(50, 1)
 
+[node name="BoundarLeft2" type="StaticBody2D" parent="Boundary"]
+position = Vector2(400, 0)
+rotation = 1.5708
+scale = Vector2(50, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/BoundarLeft2"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_uuxsp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Boundary/BoundarLeft2"]
+texture = ExtResource("4_rj11h")
+
 [node name="BoundarDown" parent="Boundary" instance=ExtResource("4_eunhr")]
 position = Vector2(1192, 1080)
 scale = Vector2(50, 1)
@@ -44,49 +63,25 @@ scale = Vector2(50, 1)
 
 [node name="Enemy" type="Node" parent="Containers"]
 
-[node name="Enemy4" parent="Containers/Enemy" instance=ExtResource("3_qvhan")]
-position = Vector2(2039, 293)
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_f6fdm")
 
-[node name="Enemy2" parent="Containers/Enemy" instance=ExtResource("3_qvhan")]
-position = Vector2(390, 212)
+[node name="Play" parent="UI" instance=ExtResource("5_ib3t1")]
 
-[node name="Enemy3" parent="Containers/Enemy" instance=ExtResource("3_qvhan")]
-position = Vector2(1751, 770)
+[node name="YouWin" parent="UI" instance=ExtResource("5_k3v36")]
 
-[node name="Enemy" parent="Containers/Enemy" instance=ExtResource("3_qvhan")]
-position = Vector2(307, 632)
+[node name="Shop" parent="UI" instance=ExtResource("7_f6fdm")]
 
-[node name="YouWin" parent="." instance=ExtResource("5_k3v36")]
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
+offset_right = 400.0
+offset_bottom = 1100.0
+color = Color(0.173001, 0.134303, 0.168448, 0.494118)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="EnemySpawner" parent="." instance=ExtResource("10_qac2q")]
+edge_padding = 100
 
-[node name="Play" type="Control" parent="CanvasLayer"]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="CheckTimer" type="Timer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Play"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.168627, 1, 0.294118, 0.254902)
-
-[node name="Button" type="Button" parent="CanvasLayer/Play"]
-layout_mode = 2
-offset_left = 1122.0
-offset_top = 686.0
-offset_right = 1311.0
-offset_bottom = 797.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 75
-text = "PLAY"
-
-[connection signal="pressed" from="CanvasLayer/Play/Button" to="." method="_on_button_pressed"]
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvkcxx853ydry"]
+
+[sub_resource type="Curve" id="Curve_h4sbe"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="BulletTrail" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 500
+lifetime = 0.15
+gravity = Vector2(0, 0)
+angular_velocity_max = 500.0
+scale_amount_min = 0.01
+scale_amount_max = 0.05
+scale_amount_curve = SubResource("Curve_h4sbe")

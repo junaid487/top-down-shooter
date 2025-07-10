@@ -48,8 +48,7 @@ scale = Vector2(0.5, 0.5)
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_px1sc")
-speed = 200.0
-enemy_hp = 20
+speed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.12549, 0.92549, 0.227451, 1)

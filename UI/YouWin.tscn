@@ -2,19 +2,17 @@
 
 [ext_resource type="Script" uid="uid://cvvv2pctw0414" path="res://UI/YouWin.gd" id="1_i2r2w"]
 
-[node name="YouWin" type="CanvasLayer"]
+[node name="YouWin" type="Control"]
 process_mode = 3
-script = ExtResource("1_i2r2w")
-
-[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_i2r2w")
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,9 +21,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.0470588, 0.243137, 0.337255, 0.231373)
+color = Color(0.0470588, 0.243137, 0.337255, 0.368627)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 1
 anchors_preset = 5
@@ -39,31 +37,31 @@ grow_horizontal = 2
 theme_override_constants/separation = 75
 alignment = 1
 
-[node name="Label" type="Label" parent="Control/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 300
 text = "YOU WIN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Restart" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="Restart" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 75
 text = "RESTART"
 
-[node name="Quit" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="Quit" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 75
 text = "QUIT"
 
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,24 +1,33 @@
 extends Node2D
 
-@onready var enemy_container = $Containers/Enemy
-@onready var you_win = $YouWin
+@onready var you_win = $UI/YouWin
 @onready var player = $Player
-@onready var play = $CanvasLayer/Play
+@onready var play = $UI/Play
+@onready var spawner = $EnemySpawner
+
+var has_enemies_spawned := false
+var check_timer_running := false
 
 func _ready() -> void:
 	you_win.visible = false
-	get_tree().paused = true
+	get_tree().paused = true  # Game starts paused
+	spawner.enemies_spawned.connect(_on_enemies_spawned)
 
 func _physics_process(delta: float) -> void:
-	if enemy_container.get_children().size() <= 0:
+	if has_enemies_spawned and not check_timer_running:
+		if get_tree().get_nodes_in_group("enemy").is_empty():
+			check_timer_running = true
+			await_delay_then_check()
+
+func _on_enemies_spawned() -> void:
+	print("✅ Enemies spawned")
+	has_enemies_spawned = true
+	check_timer_running = false
+
+func await_delay_then_check() -> void:
+	await get_tree().create_timer(1.0).timeout  # Delay before win
+	if get_tree().get_nodes_in_group("enemy").is_empty():
+		print("🏆 YOU WIN!")
 		you_win.visible = true
-		if !player:
-			return
-		else :
-			player.queue_free()
-	
-
-
-func _on_button_pressed() -> void:
-	get_tree().paused = false
-	play.visible = false
+		player.set_process(false)
+	check_timer_running = false

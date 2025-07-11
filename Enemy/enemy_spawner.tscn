@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://qmdaperih061"]
+[gd_scene load_steps=2 format=3 uid="uid://qmdaperih061"]
 
 [ext_resource type="Script" uid="uid://cacv4y35xxksp" path="res://Enemy/enemy_spawner.gd" id="1_nnkw1"]
-[ext_resource type="PackedScene" uid="uid://cqjf4xoskdju2" path="res://Enemy/enemy.tscn" id="2_s6n2o"]
 
 [node name="EnemySpawner" type="Node2D" groups=["enemy_spawner"]]
 script = ExtResource("1_nnkw1")
-enemy_scene = ExtResource("2_s6n2o")
-min_distance_from_player = 300.0

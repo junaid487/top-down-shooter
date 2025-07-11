@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dtmqf4fmjnovm"]
+
+[node name="Stats" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -418.0
+offset_top = 45.0
+offset_right = 1188.0
+offset_bottom = 114.0
+grow_horizontal = 2
+theme_override_constants/separation = 500
+
+[node name="Score" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Coins 50"
+
+[node name="Coin" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Coins 50"
+
+[node name="Hp" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Coins 50"

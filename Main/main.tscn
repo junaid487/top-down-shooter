@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cvm6pbjl561kd"]
+[gd_scene load_steps=13 format=3 uid="uid://cvm6pbjl561kd"]
 
 [ext_resource type="Script" uid="uid://brjhrtvgdkqoa" path="res://Main/main.gd" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://bv5u38ebetxvu" path="res://Player/player.tscn" id="2_2w1kt"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://dvkysi1odc3ic" path="res://UI/play.tscn" id="5_ib3t1"]
 [ext_resource type="PackedScene" uid="uid://jtsqny5tjbsl" path="res://UI/YouWin.tscn" id="5_k3v36"]
 [ext_resource type="PackedScene" uid="uid://bfo3ag0b24hps" path="res://UI/shop.tscn" id="7_f6fdm"]
+[ext_resource type="PackedScene" uid="uid://cqjf4xoskdju2" path="res://Enemy/enemy.tscn" id="10_f3gf5"]
+[ext_resource type="PackedScene" uid="uid://cic5fuebgfr74" path="res://Managers/wave_spawner.tscn" id="10_o60nc"]
 [ext_resource type="PackedScene" uid="uid://qmdaperih061" path="res://Enemy/enemy_spawner.tscn" id="10_qac2q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uuxsp"]
@@ -23,7 +25,7 @@ offset_left = -325.0
 offset_top = -287.0
 offset_right = 2732.0
 offset_bottom = 1331.0
-color = Color(3.73013e-07, 0.170081, 0.248327, 1)
+color = Color(1.44392e-07, 0.11089, 0.168559, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_2w1kt")]
 position = Vector2(1207, 544)
@@ -63,6 +65,8 @@ scale = Vector2(50, 1)
 
 [node name="Enemy" type="Node" parent="Containers"]
 
+[node name="Coin" type="Node" parent="Containers" groups=["coin_container"]]
+
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("5_f6fdm")
 
@@ -79,9 +83,14 @@ offset_bottom = 1100.0
 color = Color(0.173001, 0.134303, 0.168448, 0.494118)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("10_qac2q")]
-edge_padding = 100
+enemy_scene = ExtResource("10_f3gf5")
+screen_padding = 100
+min_distance_from_player = 300.0
 
 [node name="CheckTimer" type="Timer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
+
+[node name="WaveSpawner" parent="." instance=ExtResource("10_o60nc")]
+wave_counts = Array[int]([3, 5, 6])

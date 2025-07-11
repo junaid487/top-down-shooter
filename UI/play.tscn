@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.168627, 0.0941176, 0.803922, 0.4)
 
-[node name="Button" type="Button" parent="."]
+[node name="PlayButton" type="Button" parent="."]
 layout_mode = 2
 offset_left = 1122.0
 offset_top = 686.0
@@ -32,4 +32,4 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 75
 text = "PLAY"
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

@@ -1,52 +1,68 @@
 extends Node2D
 
 signal enemies_spawned
+signal wave_finished
 
 @export var enemy_scene: PackedScene
-@export var spawn_count: int = 5
-@export var edge_padding: int = 64
-@export var min_distance_from_player: float = 150.0
-@export var shop_width: int = 500
+@export var screen_padding: int = 64
+@export var shop_zone_width: int = 500
+@export var min_distance_from_player: float = 150
 
-func spawn_enemies_in_view() -> void:
-	if not enemy_scene:
-		print("❌ enemy_scene not assigned.")
+var waves := [3, 5, 7]  # Enemy count for each wave
+var current_wave: int = 0
+var game_started := false
+
+var player: CharacterBody2D
+var spawned_enemies := []
+
+func _ready() -> void:
+	add_to_group("enemy_spawner")
+	player = get_tree().get_first_node_in_group("player")
+
+func start_waves() -> void:
+	game_started = true
+	current_wave = 0
+	spawn_wave()
+
+func spawn_wave() -> void:
+	if current_wave >= waves.size():
+		print("✅ All waves completed.")
+		emit_signal("wave_finished")
 		return
 
-	await get_tree().process_frame  # 🔁 Ensure scene tree is ready
+	var count = waves[current_wave]
+	current_wave += 1
+	await spawn_enemies_delayed(count)
 
-	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
-	if not player:
-		print("❌ Player not found in group 'player'")
-		return
-
-	var screen_size = get_viewport().get_visible_rect().size
-	var screen_pos = player.global_position - screen_size / 2
-
-	var spawned := 0
-	var attempts := 0
-	var max_attempts := spawn_count * 10
-
-	while spawned < spawn_count and attempts < max_attempts:
-		attempts += 1
-
-		var x = randf_range(
-			screen_pos.x + shop_width + edge_padding,
-			screen_pos.x + screen_size.x - edge_padding
-		)
-		var y = randf_range(
-			screen_pos.y + edge_padding,
-			screen_pos.y + screen_size.y - edge_padding
-		)
-		var spawn_pos = Vector2(x, y)
-
-		if spawn_pos.distance_to(player.global_position) < min_distance_from_player:
-			continue
-
-		var enemy = enemy_scene.instantiate()
-		enemy.global_position = spawn_pos
-		get_tree().current_scene.call_deferred("add_child", enemy)
-		spawned += 1
-
-	print("✅ Spawned", spawned, "enemies.")
 	emit_signal("enemies_spawned")
+	print("✅ Spawned wave:", current_wave)
+
+func spawn_enemies_delayed(count: int) -> void:
+	for i in range(count):
+		await get_tree().create_timer(0.5).timeout
+		spawn_single_enemy()
+
+func spawn_single_enemy() -> void:
+	if not game_started or enemy_scene == null or player == null:
+		return
+
+	var vp_rect: Rect2 = get_viewport().get_visible_rect()
+	var spawn_rect = Rect2(
+		vp_rect.position + Vector2(shop_zone_width + screen_padding, screen_padding),
+		vp_rect.size - Vector2(shop_zone_width + screen_padding * 2, screen_padding * 2)
+	)
+
+	var tries = 0
+	while tries < 10:
+		var pos = Vector2(
+			randf_range(spawn_rect.position.x, spawn_rect.position.x + spawn_rect.size.x),
+			randf_range(spawn_rect.position.y, spawn_rect.position.y + spawn_rect.size.y)
+		)
+
+		if pos.distance_to(player.global_position) >= min_distance_from_player:
+			var enemy = enemy_scene.instantiate()
+			enemy.global_position = pos
+			get_tree().current_scene.call_deferred("add_child", enemy)
+			spawned_enemies.append(enemy)
+			return
+		tries += 1

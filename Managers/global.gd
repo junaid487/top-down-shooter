@@ -9,3 +9,5 @@ extends Node
 @export var fire_rate: int = 1
 @export var pierce: int = 1
 @export var AoE_radius: int = 25
+
+@export var coins := 0
